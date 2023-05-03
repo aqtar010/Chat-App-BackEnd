@@ -14,13 +14,16 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-app.post("/submit", (req, res) => {
+app.post("/auth/*", (req, res) => {
   const pass = req.body.Password;
   const email = req.body.Email;
   console.log(email, "  ", pass);
 
   res.json({ message: "Form submission received" });
 });
+
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
