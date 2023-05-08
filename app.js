@@ -20,13 +20,14 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-app.post("/auth/*", (req, res) => {
-  const pass = req.body.Password;
-  const email1 = req.body.Email;
-  console.log(email1, "  ", pass);
+app.post("/auth/sign-up", (req, res) => {
+  console.log(req.body);
+  const {Fname,Lname,Email,Password}=req.body;
   const newUser = new User({
-    email: email1,
-    password: pass,
+    FirstName:Fname,
+    LastName:Lname,
+    email: Email,
+    password: Password,
   });
   
   newUser.save()
