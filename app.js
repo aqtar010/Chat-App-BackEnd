@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 const connectDB = require("./handlers/db");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-const User = require("./handlers/schemaHandler");
+const User = require("./Controller/userSchema");
 connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -52,6 +52,10 @@ app.post("/auth/sign-up", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+app.post('/chatroom/user',async (req,res)=>{
+  res.status(201).json({Message:"Message Sent"});
+  console.log(req.body)
+})
 
 app.post("/auth/sign-in", async (req, res) => {
   try {
