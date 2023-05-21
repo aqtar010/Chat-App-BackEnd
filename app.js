@@ -63,14 +63,15 @@ app.post("/auth/sign-in", async (req, res) => {
     if (!user) {
       console.log("User Not Found");
       return res.status(404).json({ message: "User not found" });
-    }
-
-    bcrypt
+    }else{
+      bcrypt
       .compare(req.body.password, user.password)
       .then((result) => {
         if (result) {
           console.log("Password is valid");
-          return res.status(200).json({ message: "Sign-in successful" });
+          delete user._doc.password;
+          console.log(user);
+          return res.status(200).json(user);
         } else {
           console.log("Invalid password");
           return res.status(401).json({ message: "Invalid password" });
@@ -80,6 +81,9 @@ app.post("/auth/sign-in", async (req, res) => {
         console.log("Error:", error);
         return res.status(500).json({ message: "Internal server error" });
       });
+    }
+
+    
   } catch (error) {
     console.log("Error:", error);
     return res.status(500).json({ message: "Internal server error" });
