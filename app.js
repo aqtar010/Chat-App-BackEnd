@@ -52,7 +52,7 @@ app.post("/auth/sign-up", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-app.post('/chatroom/user',async (req,res)=>{
+app.post('/chatroom/*',async (req,res)=>{
   res.status(201).json({Message:"Message Sent"});
   console.log(req.body)
 })
