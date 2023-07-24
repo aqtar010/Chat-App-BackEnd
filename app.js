@@ -44,10 +44,6 @@ app.post("/auth/sign-up", async (req, res) => {
 
 app.post("/chatroom/*", async (req, res) => {
   res.status(201).json({ Message: "Message Sent" });
-  console.log(req.body);
-  // try {
-  //const {}
-  //} catch {}
 });
 
 app.post("/auth/sign-in", async (req, res) => {
@@ -61,9 +57,7 @@ app.post("/auth/sign-in", async (req, res) => {
         .compare(req.body.password, user.password)
         .then((result) => {
           if (result) {
-            //console.log("Password is valid");
             delete user._doc.password;
-            //console.log(user);
             return res.status(200).json(user);
           } else {
             console.log("Invalid password");
