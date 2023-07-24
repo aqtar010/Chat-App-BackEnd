@@ -1,26 +1,15 @@
+//const app = require('./server')
+const connectDB = require("./handlers/db");
+connectDB();
 const express = require("express");
 const app = express();
-const cors = require("cors");
-const bodyParser = require("body-parser");
-app.use(cors());
-app.use(bodyParser.json());
-const connectDB = require("./handlers/db");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-const User = require("./Controller/userSchema");
-connectDB();
+const User = require("./Controller/userSchema");;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
-app.post("/", (req, res) => {
-  res.send("POST request to the homepage");
-});
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
+const cors = require("cors");
+app.use(cors());
 app.post("/auth/sign-up", async (req, res) => {
   try {
     const { Fname, Lname, Email, Password } = req.body;
@@ -52,10 +41,14 @@ app.post("/auth/sign-up", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-app.post('/chatroom/*',async (req,res)=>{
-  res.status(201).json({Message:"Message Sent"});
-  console.log(req.body)
-})
+
+app.post("/chatroom/*", async (req, res) => {
+  res.status(201).json({ Message: "Message Sent" });
+  console.log(req.body);
+  // try {
+  //const {}
+  //} catch {}
+});
 
 app.post("/auth/sign-in", async (req, res) => {
   try {
@@ -63,31 +56,30 @@ app.post("/auth/sign-in", async (req, res) => {
     if (!user) {
       console.log("User Not Found");
       return res.status(404).json({ message: "User not found" });
-    }else{
+    } else {
       bcrypt
-      .compare(req.body.password, user.password)
-      .then((result) => {
-        if (result) {
-          console.log("Password is valid");
-          delete user._doc.password;
-          console.log(user);
-          return res.status(200).json(user);
-        } else {
-          console.log("Invalid password");
-          return res.status(401).json({ message: "Invalid password" });
-        }
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-        return res.status(500).json({ message: "Internal server error" });
-      });
+        .compare(req.body.password, user.password)
+        .then((result) => {
+          if (result) {
+            //console.log("Password is valid");
+            delete user._doc.password;
+            //console.log(user);
+            return res.status(200).json(user);
+          } else {
+            console.log("Invalid password");
+            return res.status(401).json({ message: "Invalid password" });
+          }
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+          return res.status(500).json({ message: "Internal server error" });
+        });
     }
-
-    
   } catch (error) {
     console.log("Error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 });
 
-module.exports = app;
+
+ module.exports = app;
